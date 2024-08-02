@@ -1,0 +1,71 @@
+name: Terraform Deployment
+
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Select the environment to deploy (e.g., dev, staging, prod)'
+        required: true
+        default: 'dev'
+        type: string
+        options: 
+          - ci-env
+          - dev
+          - int
+          - pre-prod
+          - prod
+      module:
+        description: 'Select the Terraform module to deploy'
+        required: true
+        default: 'network'
+        type: string
+        options: 
+          - eks-cluster
+          - eks-cluster/nodegroup
+          - database
+
+      region:
+        description: 'Select the region to deploy to (e.g., us-gov-west-1,us-gov-east-1)'
+        required: true
+        default: 'us-gov-west-1'
+        type: string
+        options: 
+          - us-gov-west-1
+          - us-gov-east-1
+
+      var_file:
+        description: 'Specify the Terraform variable file '
+        required: true
+        default: 'cluster1.tfvars'
+        type: string
+
+permissions:
+  contents: read
+  pull-requests: write
+env:
+  TERRAFORM_PATH: "./ci-env/terraform"
+  TF_VERSION: 1.8.1
+  NODE_VERSION: 14
+  NODE_EXTRA_CA_CERTS: /etc/ssl/certs/ca-bundle.crt
+
+jobs:
+  terraform_plan:
+    name: Terraform
+    runs-on: ubuntu-latest
+      # group: organization/group-vaprofile-AnXDB6OxwkIvqeUd #pragma: allowlist secret
+      # labels:
+      # - actions-runner-scale-set
+    environment: ${{ github.event.inputs.environment }} # TODO: Change this to the management environment once we get more IP space there
+    env:
+      TF_VARS: " -var='account_role_arn=arn:aws-us-gov:iam::${{ vars.AWS_ACCOUNT_ID }}:role/project/project-vaprofile-cross-account-role'"
+    defaults:
+      run:
+        working-directory: ${{ github.event.inputs.environment }}/${{ github.event.inputs.module }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: check path
+        run: pwd
+
+
