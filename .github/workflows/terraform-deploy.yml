@@ -66,6 +66,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: check path
-        run: ls -ltra
+        run: |
+          pwd
+          ls -ltra
 
 
