@@ -69,5 +69,22 @@ jobs:
         run: |
           pwd
           ls -ltra
+          echo "Plan completed"
 
-
+  terraform_apply:
+    name: Terraform Apply
+    runs-on: ubuntu-latest
+    needs: terraform_plan
+    environment:
+      name: "${{ github.event.inputs.environment }}-apply"
+    env:
+      TF_VARS: " -var='account_role_arn=arn:aws-us-gov:iam::${{ vars.AWS_ACCOUNT_ID }}:role/project/project-vaprofile-cross-account-role'"
+    defaults:
+      run:
+        working-directory: "${{ github.event.inputs.environment }}/${{ github.event.inputs.module }}"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4       
+      - name: Terraform apply
+        run: echo "Aplly completed"
+      
