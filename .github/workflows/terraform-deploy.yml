@@ -8,7 +8,7 @@ on:
         description: 'Select the environment to deploy (e.g., dev, staging, prod)'
         required: true
         default: 'dev'
-        type: string
+        type: choice
         options: 
           - ci-env
           - dev
@@ -19,7 +19,7 @@ on:
         description: 'Select the Terraform module to deploy'
         required: true
         default: 'network'
-        type: string
+        type: choice
         options: 
           - eks-cluster
           - eks-cluster/nodegroup
@@ -29,7 +29,7 @@ on:
         description: 'Select the region to deploy to (e.g., us-gov-west-1,us-gov-east-1)'
         required: true
         default: 'us-gov-west-1'
-        type: string
+        type: choice
         options: 
           - us-gov-west-1
           - us-gov-east-1
