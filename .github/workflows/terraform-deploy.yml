@@ -61,7 +61,7 @@ jobs:
       TF_VARS: " -var='account_role_arn=arn:aws-us-gov:iam::${{ vars.AWS_ACCOUNT_ID }}:role/project/project-vaprofile-cross-account-role'"
     defaults:
       run:
-        working-directory: ${{ github.event.inputs.environment }}/${{ github.event.inputs.module }}
+        working-directory: ./${{ github.event.inputs.environment }}/${{ github.event.inputs.module }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
