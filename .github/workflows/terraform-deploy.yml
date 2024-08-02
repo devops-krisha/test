@@ -64,7 +64,7 @@ jobs:
         working-directory: "./${{ github.event.inputs.environment }}/${{ github.event.inputs.module }}"
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: check path
         run: |
           pwd
