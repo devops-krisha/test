@@ -65,11 +65,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: check path
+      - name: Terraform Plan
         run: |
           pwd
           ls -ltra
           echo "Plan completed"
+          echo "key: ${{ github.event.inputs.environment }}/${{ github.event.inputs.module }}/${{ github.event.inputs.region }}/${{ github.event.inputs.var_file}}.tfstate"
 
   terraform_apply:
     name: Terraform Apply
